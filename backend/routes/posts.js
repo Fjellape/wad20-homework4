@@ -25,6 +25,27 @@ router.get('/', authorize, (request, response) => {
 router.post('/', authorize,  (request, response) => {
 
     // Endpoint to create a new post
+
+    //TODO need to add some functionality to verification content.
+    //Right now it even adding an empty post.
+
+    let post = {
+
+        userId: request.currentUser.id,
+        text: request.body.text,
+
+        media: {
+            type: request.body.media.type,
+            url: request.body.media.url
+        }
+
+    }
+
+    PostModel.create(post, () => {
+        response.status(201).json()
+    });
+    response.json([]);
+
 });
 
 
