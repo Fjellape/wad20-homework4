@@ -29,6 +29,25 @@ router.post('/', authorize,  (request, response) => {
     //TODO need to add some functionality to verification content.
     //Right now it even adding an empty post.
 
+    let post  = {
+
+        userId: request.currentUser.id,
+        text: request.body.text,
+
+        media: {
+            type: request.body.media.type,
+            url: request.body.media.url
+        }
+    }
+
+    PostModel.create(post, () => {
+        response.status(201).json()
+    });
+    response.json([]);
+});
+
+
+    /**
     let post;
 
     if (request.body.text != ' ' || request.body.media.url != ' ') {
@@ -57,8 +76,9 @@ router.post('/', authorize,  (request, response) => {
         response.status(406).json()
         response.json([]);
     }
+     **/
 
-});
+
 
 
 router.put('/:postId/likes', authorize, (request, response) => {
