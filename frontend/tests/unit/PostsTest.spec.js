@@ -100,7 +100,21 @@ describe('Posts', () => {
 
     const wrapper = mount(Posts, {router, store, localVue});
 
-    it('1 == 1', function () {
-        expect(true).toBe(true)
+    it('redered posts amount equals posts amount in testData', function () {
+        const items = wrapper.findAll('.post')
+        expect(items.length).toEqual(testData.length)
+    });
+
+    /*it('posts with media property are rendered depending on media.type,' +
+        'posts without media property are not rendered', function (){
+        //TODO
+    });*/
+
+    it('post create time is displayed in correct format', function () {
+        const items = wrapper.findAll('.post')
+        for (let item in items){
+            const isValid = moment(item.createTime, 'LLLL').isValid();
+            expect(isValid).toEqual(true);
+        }
     });
 });
