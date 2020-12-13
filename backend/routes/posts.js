@@ -29,22 +29,34 @@ router.post('/', authorize,  (request, response) => {
     //TODO need to add some functionality to verification content.
     //Right now it even adding an empty post.
 
-    let post = {
+    let post;
 
-        userId: request.currentUser.id,
-        text: request.body.text,
+    if (request.body.text != ' ' || request.body.media.url != ' ') {
+        post = {
 
-        media: {
-            type: request.body.media.type,
-            url: request.body.media.url
+            userId: request.currentUser.id,
+            text: request.body.text,
+
+            media: {
+                type: request.body.media.type,
+                url: request.body.media.url
+            }
         }
-
+    }
+    else {
+        post = null;
     }
 
-    PostModel.create(post, () => {
-        response.status(201).json()
-    });
-    response.json([]);
+    if (post != null) {
+        PostModel.create(post, () => {
+            response.status(201).json()
+            response.json([]);
+        });
+    }
+    else if (post == null) {
+        response.status(406).json()
+        response.json([]);
+    }
 
 });
 
